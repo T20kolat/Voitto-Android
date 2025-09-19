@@ -23,6 +23,7 @@ import com.voitto.R
 import com.voitto.ui.cashflow.CashFlowScreen
 import com.voitto.ui.tips.TipsScreen
 import com.voitto.ui.resources.ResourcesScreen
+import com.voitto.ui.HomeScreen
 import com.voitto.ui.theme.VoittoTheme
 
 private enum class Dest(val route: String, val labelRes: Int, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
