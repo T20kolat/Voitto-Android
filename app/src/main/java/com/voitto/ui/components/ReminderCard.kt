@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.voitto.ui.R
+import com.voitto.R
 import com.voitto.ui.components.AnimatedButton
 
 @Composable
