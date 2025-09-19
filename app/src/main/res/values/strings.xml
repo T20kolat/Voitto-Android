@@ -60,7 +60,7 @@
     <string name="cat_transport">Transport</string>
     <string name="cat_utilities">Utilities</string>
     <string name="cat_telecom">Telecom</string>
-    <string name="cat_health">Health & Wellness</string>
+    <string name="cat_health">Health and Wellness</string>
     <string name="cat_children">Children</string>
     <string name="cat_car">Car</string>
     <string name="cat_leisure">Leisure</string>
@@ -70,7 +70,7 @@
     <string name="resources_segment_kela">Kela</string>
     <string name="resources_segment_food">Food Aid</string>
     <string name="resources_segment_debt">Debt Counseling</string>
-    <string name="resources_segment_work">Work & Education</string>
+    <string name="resources_segment_work">Work and Education</string>
     <string name="resources_segment_housing">Housing</string>
     <string name="eligibility_summary">Eligibility Summary</string>
     <string name="required_documents">Required Documents</string>
