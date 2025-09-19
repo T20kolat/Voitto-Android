@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -87,7 +89,6 @@ fun CashFlowScreen(
                     text = "${selectedWeek.format(dateFormatter)} - ${selectedWeek.plusDays(6).format(dateFormatter)}",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
-                        .weight(1f)
                         .padding(vertical = 16.dp)
                 )
                 AnimatedButton(onClick = { viewModel.selectNextWeek() }) {

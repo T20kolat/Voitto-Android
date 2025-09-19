@@ -22,7 +22,7 @@ fun AnimatedTransactionBar(
     modifier: Modifier = Modifier
 ) {
     // Use remember to prevent recreation on recomposition
-    val isVisible by remember { mutableStateOf(false) }
+    var isVisible by remember { mutableStateOf(false) }
     
     // Single animation for both height and alpha to reduce overhead
     val animatedProgress by animateFloatAsState(

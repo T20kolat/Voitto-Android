@@ -9,7 +9,7 @@ object PerformanceMonitor {
     
     private const val TAG = "PerformanceMonitor"
     
-    inline fun <T> measureTime(operation: String, block: () -> T): T {
+    fun <T> measureTime(operation: String, block: () -> T): T {
         var result: T
         val time = measureTimeMillis {
             result = block()
@@ -18,7 +18,7 @@ object PerformanceMonitor {
         return result
     }
     
-    suspend inline fun <T> measureSuspendTime(operation: String, block: suspend () -> T): T {
+    suspend fun <T> measureSuspendTime(operation: String, block: suspend () -> T): T {
         var result: T
         val time = measureTimeMillis {
             result = block()

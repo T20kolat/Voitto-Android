@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -50,8 +52,7 @@ fun ResourcesScreen(
             resourceTypes.forEach { (type, label) ->
                 SegmentedButton(
                     selected = selectedType == type,
-                    onClick = { viewModel.selectResourceType(type) },
-                    modifier = Modifier.weight(1f)
+                    onClick = { viewModel.selectResourceType(type) }
                 ) {
                     Text(text = label, style = MaterialTheme.typography.labelSmall)
                 }
@@ -73,7 +74,9 @@ fun ResourcesScreen(
 
 @Composable
 private fun ResourceCard(resource: com.voitto.data.entity.ResourceEntity) {
-    Card {
+    Card(
+        shape = RoundedCornerShape(8.dp)
+    ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(text = resource.name, style = MaterialTheme.typography.titleMedium)
             Text(text = resource.eligibilitySummary, style = MaterialTheme.typography.bodyMedium)

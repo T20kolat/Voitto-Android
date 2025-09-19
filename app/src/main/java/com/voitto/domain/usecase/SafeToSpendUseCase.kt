@@ -5,6 +5,7 @@ import com.voitto.data.entity.ExpenseEntity
 import com.voitto.data.entity.TransactionEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -33,8 +34,10 @@ class SafeToSpendUseCase(private val budgetDao: BudgetDao) {
         
         return combine(
             budgetDao.getTransactionsInPeriod(startDate, endDate),
-            budgetDao.getUpcomingInfrequentExpenses(startDate, endDate)
-        ) { transactions, expenses ->
+            flow {
+                emit(budgetDao.getUpcomingInfrequentExpenses(startDate, endDate))
+            }
+        ) { transactions: List<TransactionEntity>, expenses: List<ExpenseEntity> ->
             calculateSafeToSpendInternal(
                 currentBalance = currentBalance,
                 transactions = transactions,
