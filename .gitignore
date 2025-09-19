@@ -27,9 +27,11 @@ local.properties
 # Gradle
 .gradle/
 build/
-gradle/
-gradlew
-gradlew.bat
+# Allow gradle wrapper files
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!gradlew
+!gradlew.bat
 
 # Logs
 *.log
