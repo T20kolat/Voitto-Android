@@ -1,4 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Voitto</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_cashflow">Cash Flow</string>
+    <string name="nav_tips">Tips</string>
+    <string name="nav_resources">Resources</string>
+
+    <!-- Common actions -->
+    <string name="action_confirm">Confirm</string>
+    <string name="action_snooze">Snooze</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_save">Save</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_call_now">Call Now</string>
+    <string name="action_apply_online">Apply Online</string>
+    <string name="action_bookmark">Bookmark</string>
+    <string name="action_report_issue">Report Issue</string>
+
+    <!-- Forgotten expenses / reminders -->
+    <string name="forgotten_expenses_title">Forgotten Expenses</string>
+    <string name="predicted_expense_title">Predicted Expense</string>
+    <string name="predicted_expense_reason_annual">Based on last year\'s payment date</string>
+    <string name="predicted_expense_reason_seasonal">Based on seasonal spending</string>
+    <string name="set_sinking_fund">Set up sinking fund</string>
+    <string name="add_common_bills">Add common annual bills</string>
+    <string name="import_transactions_csv">Import bank transactions (CSV)</string>
+
+    <!-- Cash flow -->
+    <string name="cashflow_title">Cash Flow</string>
+    <string name="balance_now">Current Balance</string>
+    <string name="safe_to_spend">Safe to Spend</string>
+    <string name="safe_to_spend_info">Safe to spend is an estimate of money you can use in the next week. It takes into account upcoming bills like rent and childcare fees.</string>
+    <string name="predicted_label">predicted</string>
+    <string name="period_net">Period Net</string>
+    <string name="upcoming_large_expenses">Upcoming Large Expenses</string>
+
+    <!-- Tips & challenges -->
+    <string name="tips_title">Saving Tips</string>
+    <string name="challenge_of_week">Challenge of the Week</string>
+    <string name="challenge_progress">Progress</string>
+    <string name="mark_done">Mark Done</string>
+    <string name="estimated_saving">Estimated Saving</string>
+
+    <!-- Cut or Spend More tool -->
+    <string name="cut_or_spend_title">Cut or Spend More</string>
+    <string name="mode_cut">Cut</string>
+    <string name="mode_spend_more">Spend More</string>
+    <string name="apply_to_budget">Apply to Budget</string>
+    <string name="before_after">Before vs. After</string>
+
+    <!-- Categories -->
+    <string name="cat_food">Food</string>
+    <string name="cat_housing">Housing</string>
+    <string name="cat_transport">Transport</string>
+    <string name="cat_utilities">Utilities</string>
+    <string name="cat_telecom">Telecom</string>
+    <string name="cat_health">Health & Wellness</string>
+    <string name="cat_children">Children</string>
+    <string name="cat_car">Car</string>
+    <string name="cat_leisure">Leisure</string>
+
+    <!-- Resource hub -->
+    <string name="resources_title">Resource Hub</string>
+    <string name="resources_segment_kela">Kela</string>
+    <string name="resources_segment_food">Food Aid</string>
+    <string name="resources_segment_debt">Debt Counseling</string>
+    <string name="resources_segment_work">Work & Education</string>
+    <string name="resources_segment_housing">Housing</string>
+    <string name="eligibility_summary">Eligibility Summary</string>
+    <string name="required_documents">Required Documents</string>
+    <string name="last_verified">Last Verified</string>
+
+    <!-- Find help wizard -->
+    <string name="find_help_title">Find Help</string>
+    <string name="household_size">Household Size</string>
+    <string name="housing_type">Housing Type</string>
+    <string name="income_band">Income Band</string>
+    <string name="employment_status">Employment Status</string>
+    <string name="suggested_resources">Suggested Resources</string>
+
+    <!-- Examples of Finnish bills -->
+    <string name="bill_vehicle_tax">Vehicle Tax</string>
+    <string name="bill_inspection">Inspection</string>
+    <string name="bill_traffic_insurance">Traffic Insurance</string>
+    <string name="bill_property_tax">Property Tax</string>
+    <string name="bill_yle_tax">Yle Tax</string>
+    <string name="bill_early_education_fee">Early Education Fee</string>
+    <string name="bill_car_service">Car Service</string>
+    <string name="bill_tire_change">Tire Change</string>
+
+    <!-- Empty states -->
+    <string name="empty_reminders_explain">We remind you of less frequent important payments like vehicle tax and property tax.</string>
+    <string name="empty_cashflow_explain">Add income and expenses or import transactions from CSV to see your cash flow.</string>
 </resources>
