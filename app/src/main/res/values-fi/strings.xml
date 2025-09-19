@@ -69,7 +69,7 @@
     <string name="resources_segment_kela">Kela</string>
     <string name="resources_segment_food">Ruoka-apu</string>
     <string name="resources_segment_debt">Velkaneuvonta</string>
-    <string name="resources_segment_work">Työ & koulutus</string>
+    <string name="resources_segment_work">Työ ja koulutus</string>
     <string name="resources_segment_housing">Asuminen</string>
     <string name="eligibility_summary">Kelpoisuusyhteenveto</string>
     <string name="required_documents">Tarvittavat asiakirjat</string>
