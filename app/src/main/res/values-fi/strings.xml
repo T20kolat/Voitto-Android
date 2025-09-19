@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">Voitto</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Koti</string>
+    <string name="nav_cashflow">Kassavirta</string>
+    <string name="nav_tips">Vinkit</string>
+    <string name="nav_resources">Tietopankki</string>
+
+    <!-- Common actions -->
+    <string name="action_confirm">Vahvista</string>
+    <string name="action_snooze">Torkuta</string>
+    <string name="action_dismiss">Hylkää</string>
+    <string name="action_save">Tallenna</string>
+    <string name="action_reset">Palauta</string>
+    <string name="action_apply">Käytä</string>
+    <string name="action_cancel">Peru</string>
+    <string name="action_edit">Muokkaa</string>
+    <string name="action_call_now">Soita</string>
+    <string name="action_apply_online">Hae verkossa</string>
+    <string name="action_bookmark">Tallenna</string>
+    <string name="action_report_issue">Ilmoita virheestä</string>
+
+    <!-- Forgotten expenses / reminders -->
+    <string name="forgotten_expenses_title">Unohtuneet menot</string>
+    <string name="predicted_expense_title">Mahdollinen tuleva meno</string>
+    <string name="predicted_expense_reason_annual">Perustuu viime vuoden maksupäivään</string>
+    <string name="predicted_expense_reason_seasonal">Perustuu kausittaiseen menoon</string>
+    <string name="set_sinking_fund">Seuraa kuukausivarausta</string>
+    <string name="add_common_bills">Lisää yleiset vuosikulut</string>
+    <string name="import_transactions_csv">Tuo pankkitapahtumat (CSV)</string>
+
+    <!-- Cash flow -->
+    <string name="cashflow_title">Kassavirta</string>
+    <string name="balance_now">Nykyinen saldo</string>
+    <string name="safe_to_spend">Turvallisesti käytettävissä</string>
+    <string name="safe_to_spend_info">Turvallisesti käytettävissä on arvio rahasta, jonka voit käyttää seuraavan viikon aikana. Siinä on huomioitu tulevat laskut, kuten vuokra ja varhaiskasvatusmaksu.</string>
+    <string name="predicted_label">ennuste</string>
+    <string name="period_net">Jakson netto</string>
+    <string name="upcoming_large_expenses">Tulevat isot menot</string>
+
+    <!-- Tips & challenges -->
+    <string name="tips_title">Säästövinkit</string>
+    <string name="challenge_of_week">Viikon haaste</string>
+    <string name="challenge_progress">Edistyminen</string>
+    <string name="mark_done">Merkitse valmiiksi</string>
+    <string name="estimated_saving">Arvioitu säästö</string>
+
+    <!-- Cut or Spend More tool -->
+    <string name="cut_or_spend_title">Leikkaa vai käytä enemmän</string>
+    <string name="mode_cut">Leikkaa</string>
+    <string name="mode_spend_more">Käytä enemmän</string>
+    <string name="apply_to_budget">Tallenna budjettiin</string>
+    <string name="before_after">Ennen vs. jälkeen</string>
+
+    <!-- Categories (FI) -->
+    <string name="cat_food">Ruoka</string>
+    <string name="cat_housing">Asuminen</string>
+    <string name="cat_transport">Liikkuminen</string>
+    <string name="cat_utilities">Sähkö, vesi, jäte</string>
+    <string name="cat_telecom">Viestintä</string>
+    <string name="cat_health">Terveys ja hyvinvointi</string>
+    <string name="cat_children">Lapsiperhe</string>
+    <string name="cat_car">Auto</string>
+    <string name="cat_leisure">Vapaa-aika</string>
+
+    <!-- Resource hub -->
+    <string name="resources_title">Tietopankki</string>
+    <string name="resources_segment_kela">Kela</string>
+    <string name="resources_segment_food">Ruoka-apu</string>
+    <string name="resources_segment_debt">Velkaneuvonta</string>
+    <string name="resources_segment_work">Työ & koulutus</string>
+    <string name="resources_segment_housing">Asuminen</string>
+    <string name="eligibility_summary">Kelpoisuusyhteenveto</string>
+    <string name="required_documents">Tarvittavat asiakirjat</string>
+    <string name="last_verified">Viimeksi varmistettu</string>
+
+    <!-- Find help wizard -->
+    <string name="find_help_title">Löydä tukea</string>
+    <string name="household_size">Talouden koko</string>
+    <string name="housing_type">Asumismuoto</string>
+    <string name="income_band">Tuloluokka</string>
+    <string name="employment_status">Työtilanne</string>
+    <string name="suggested_resources">Ehdotetut palvelut</string>
+
+    <!-- Examples of Finnish bills -->
+    <string name="bill_vehicle_tax">Ajoneuvovero</string>
+    <string name="bill_inspection">Katsastus</string>
+    <string name="bill_traffic_insurance">Liikennevakuutus</string>
+    <string name="bill_property_tax">Kiinteistövero</string>
+    <string name="bill_yle_tax">Yle-vero</string>
+    <string name="bill_early_education_fee">Varhaiskasvatusmaksu</string>
+    <string name="bill_car_service">Auton vuosihuolto</string>
+    <string name="bill_tire_change">Renkaiden vaihto</string>
+
+    <!-- Empty states -->
+    <string name="empty_reminders_explain">Muistutamme harvemmin tulevista tärkeistä maksuista, kuten ajoneuvovero ja kiinteistövero.</string>
+    <string name="empty_cashflow_explain">Lisää tuloja ja menoja tai tuo tapahtumat CSV-tiedostosta nähdäksesi kassavirran.</string>
+</resources>
+
