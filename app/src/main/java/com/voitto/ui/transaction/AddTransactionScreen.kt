@@ -260,14 +260,48 @@ fun AddTransactionScreen(
                     }
                 }
                 
-                // Add bottom padding for the floating button
+                // Submit Button (Alternative)
                 item {
-                    Spacer(modifier = Modifier.height(100.dp))
+                    Button(
+                        onClick = {
+                            val transactionAmount = amount.toFloatOrNull() ?: 0f
+                            val finalAmount = if (isIncome) transactionAmount else -transactionAmount
+                            
+                            if (selectedCategory != null && finalAmount != 0f) {
+                                val transaction = TransactionEntity(
+                                    id = "manual_${System.currentTimeMillis()}",
+                                    date = selectedDate,
+                                    amount = finalAmount,
+                                    categoryId = selectedCategory!!.id,
+                                    note = note.ifEmpty { null },
+                                    source = "manual"
+                                )
+                                viewModel.addTransaction(transaction)
+                                onNavigateBack()
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null
+                    ) {
+                        Text(
+                            text = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                                "LISÄÄ TAPAHTUMA" 
+                            else 
+                                "TÄYTÄ KAIKKI KENTÄT",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                
+                // Add bottom padding
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
         
-        // Floating Submit Button
+        // Submit Button - Fixed to be always visible
         FloatingActionButton(
             onClick = {
                 val transactionAmount = amount.toFloatOrNull() ?: 0f
@@ -287,17 +321,24 @@ fun AddTransactionScreen(
                 }
             },
             modifier = Modifier
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomEnd)
                 .padding(16.dp),
             containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
                 MaterialTheme.colorScheme.primary 
             else 
                 MaterialTheme.colorScheme.surfaceVariant
         ) {
-            Icon(
-                Icons.Default.Add, 
-                contentDescription = null,
-                modifier = Modifier.size(32.dp)
+            Text(
+                text = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                    "LISÄÄ" 
+                else 
+                    "TÄYTÄ KAIKKI KENTÄT",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                    MaterialTheme.colorScheme.onPrimary 
+                else 
+                    MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
