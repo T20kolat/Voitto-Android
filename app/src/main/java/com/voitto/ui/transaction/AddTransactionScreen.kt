@@ -40,14 +40,11 @@ fun AddTransactionScreen(
     
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     
-    Box(
-        modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
             // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -67,10 +64,10 @@ fun AddTransactionScreen(
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.weight(1f)
-            ) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.weight(1f)
+        ) {
                 // Transaction Type Toggle
                 item {
                     Card(
@@ -260,86 +257,120 @@ fun AddTransactionScreen(
                     }
                 }
                 
-                // Submit Button (Alternative)
+                // LARGE SUBMIT BUTTON - CANNOT MISS THIS!
                 item {
-                    Button(
-                        onClick = {
-                            val transactionAmount = amount.toFloatOrNull() ?: 0f
-                            val finalAmount = if (isIncome) transactionAmount else -transactionAmount
-                            
-                            if (selectedCategory != null && finalAmount != 0f) {
-                                val transaction = TransactionEntity(
-                                    id = "manual_${System.currentTimeMillis()}",
-                                    date = selectedDate,
-                                    amount = finalAmount,
-                                    categoryId = selectedCategory!!.id,
-                                    note = note.ifEmpty { null },
-                                    source = "manual"
-                                )
-                                viewModel.addTransaction(transaction)
-                                onNavigateBack()
-                            }
-                        },
+                    Card(
                         modifier = Modifier.fillMaxWidth(),
-                        enabled = selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null
-                    ) {
-                        Text(
-                            text = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
-                                "LISÄÄ TAPAHTUMA" 
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                                MaterialTheme.colorScheme.primary 
                             else 
-                                "TÄYTÄ KAIKKI KENTÄT",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
+                                MaterialTheme.colorScheme.surfaceVariant
                         )
+                    ) {
+                        Button(
+                            onClick = {
+                                val transactionAmount = amount.toFloatOrNull() ?: 0f
+                                val finalAmount = if (isIncome) transactionAmount else -transactionAmount
+                                
+                                if (selectedCategory != null && finalAmount != 0f) {
+                                    val transaction = TransactionEntity(
+                                        id = "manual_${System.currentTimeMillis()}",
+                                        date = selectedDate,
+                                        amount = finalAmount,
+                                        categoryId = selectedCategory!!.id,
+                                        note = note.ifEmpty { null },
+                                        source = "manual"
+                                    )
+                                    viewModel.addTransaction(transaction)
+                                    onNavigateBack()
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp),
+                            enabled = selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                                    MaterialTheme.colorScheme.primary 
+                                else 
+                                    MaterialTheme.colorScheme.surfaceVariant
+                            )
+                        ) {
+                            Text(
+                                text = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                                    "✅ LISÄÄ TAPAHTUMA ✅" 
+                                else 
+                                    "❌ TÄYTÄ KAIKKI KENTÄT ❌",
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                                    MaterialTheme.colorScheme.onPrimary 
+                                else 
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
                 
-                // Add bottom padding
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-            }
         }
         
-        // Submit Button - Fixed to be always visible
-        FloatingActionButton(
-            onClick = {
-                val transactionAmount = amount.toFloatOrNull() ?: 0f
-                val finalAmount = if (isIncome) transactionAmount else -transactionAmount
-                
-                if (selectedCategory != null && finalAmount != 0f) {
-                    val transaction = TransactionEntity(
-                        id = "manual_${System.currentTimeMillis()}",
-                        date = selectedDate,
-                        amount = finalAmount,
-                        categoryId = selectedCategory!!.id,
-                        note = note.ifEmpty { null },
-                        source = "manual"
-                    )
-                    viewModel.addTransaction(transaction)
-                    onNavigateBack()
-                }
-            },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
-                MaterialTheme.colorScheme.primary 
-            else 
-                MaterialTheme.colorScheme.surfaceVariant
-        ) {
-            Text(
-                text = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
-                    "LISÄÄ" 
+        // Submit Button - NOW ABOVE THE NAV BAR!
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                    MaterialTheme.colorScheme.primary 
                 else 
-                    "TÄYTÄ KAIKKI KENTÄT",
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
-                    MaterialTheme.colorScheme.onPrimary 
-                else 
-                    MaterialTheme.colorScheme.onSurfaceVariant
+                    MaterialTheme.colorScheme.surfaceVariant
             )
+        ) {
+            Button(
+                onClick = {
+                    val transactionAmount = amount.toFloatOrNull() ?: 0f
+                    val finalAmount = if (isIncome) transactionAmount else -transactionAmount
+                    
+                    if (selectedCategory != null && finalAmount != 0f) {
+                        val transaction = TransactionEntity(
+                            id = "manual_${System.currentTimeMillis()}",
+                            date = selectedDate,
+                            amount = finalAmount,
+                            categoryId = selectedCategory!!.id,
+                            note = note.ifEmpty { null },
+                            source = "manual"
+                        )
+                        viewModel.addTransaction(transaction)
+                        onNavigateBack()
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+                enabled = selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                        MaterialTheme.colorScheme.primary 
+                    else 
+                        MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                Text(
+                    text = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                        "✅ LISÄÄ TAPAHTUMA ✅" 
+                    else 
+                        "❌ TÄYTÄ KAIKKI KENTÄT ❌",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
+                        MaterialTheme.colorScheme.onPrimary 
+                    else 
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
