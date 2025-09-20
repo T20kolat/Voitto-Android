@@ -2,8 +2,8 @@ package com.voitto.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShowChart
-import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,8 +28,8 @@ import com.voitto.ui.theme.VoittoTheme
 
 private enum class Dest(val route: String, val labelRes: Int, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     Home("home", R.string.nav_home, Icons.Default.Home),
-    CashFlow("cashflow", R.string.nav_cashflow, Icons.Default.ShowChart),
-    Tips("tips", R.string.nav_tips, Icons.Default.Lightbulb),
+    CashFlow("cashflow", R.string.nav_cashflow, Icons.Default.List),
+    Tips("tips", R.string.nav_tips, Icons.Default.Favorite),
     Resources("resources", R.string.nav_resources, Icons.Default.Info)
 }
 

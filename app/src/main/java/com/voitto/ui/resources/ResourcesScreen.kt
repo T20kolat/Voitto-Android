@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -52,7 +51,8 @@ fun ResourcesScreen(
             resourceTypes.forEach { (type, label) ->
                 SegmentedButton(
                     selected = selectedType == type,
-                    onClick = { viewModel.selectResourceType(type) }
+                    onClick = { viewModel.selectResourceType(type) },
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(text = label, style = MaterialTheme.typography.labelSmall)
                 }

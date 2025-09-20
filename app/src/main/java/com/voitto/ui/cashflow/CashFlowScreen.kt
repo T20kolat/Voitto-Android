@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -115,7 +114,7 @@ fun CashFlowScreen(
                         elevation = androidx.compose.material3.CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
                     ) {
                         Row(modifier = Modifier.padding(16.dp)) {
-                            Column(modifier = Modifier.weight(1f)) {
+                            Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(
                                     text = day.date.format(dateFormatter), 
                                     style = MaterialTheme.typography.titleSmall
@@ -182,7 +181,6 @@ private fun Bar(amount: Float, color: Color) {
             .height(heightDp)
             .clip(RoundedCornerShape(4.dp))
             .background(color)
-            .weight(1f)
     )
 }
 
