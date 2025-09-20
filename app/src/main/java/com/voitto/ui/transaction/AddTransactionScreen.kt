@@ -19,6 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.voitto.R
 import com.voitto.data.entity.CategoryEntity
 import com.voitto.data.entity.TransactionEntity
+import com.voitto.ui.theme.getResponsivePadding
+import com.voitto.ui.theme.getResponsiveSpacing
 import com.voitto.ui.viewmodel.AddTransactionViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -43,7 +45,7 @@ fun AddTransactionScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(getResponsivePadding())
     ) {
             // Header
             Row(
@@ -65,7 +67,7 @@ fun AddTransactionScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(getResponsiveSpacing()),
             modifier = Modifier.weight(1f)
         ) {
                 // Transaction Type Toggle

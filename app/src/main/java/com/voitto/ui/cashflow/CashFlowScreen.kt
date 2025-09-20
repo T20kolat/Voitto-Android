@@ -41,8 +41,10 @@ import com.voitto.ui.components.AnimatedBalance
 import com.voitto.ui.components.AnimatedButton
 import com.voitto.ui.components.AnimatedTransactionBar
 import com.voitto.ui.components.LoadingShimmer
-import com.voitto.ui.theme.IncomeGreen
-import com.voitto.ui.theme.ExpenseRed
+import com.voitto.ui.theme.getExpenseColor
+import com.voitto.ui.theme.getIncomeColor
+import com.voitto.ui.theme.getResponsivePadding
+import com.voitto.ui.theme.getResponsiveSpacing
 import com.voitto.ui.viewmodel.CashFlowViewModel
 import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
@@ -62,8 +64,10 @@ fun CashFlowScreen(
     val dateFormatter = DateTimeFormatter.ofPattern("dd.MM")
     
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = modifier
+            .fillMaxSize()
+            .padding(getResponsivePadding()),
+        verticalArrangement = Arrangement.spacedBy(getResponsiveSpacing())
     ) {
         // Balance cards
         item {
@@ -218,7 +222,7 @@ fun CashFlowScreen(
                                     text = "${if (day.netAmount >= 0) "+" else ""}€${formatter.format(day.netAmount)}", 
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                    color = if (day.netAmount >= 0) IncomeGreen else ExpenseRed
+                                    color = if (day.netAmount >= 0) getIncomeColor() else getExpenseColor()
                                 )
                             }
                             
@@ -243,7 +247,7 @@ fun CashFlowScreen(
                                             text = "${if (transaction.amount >= 0) "+" else ""}€${formatter.format(transaction.amount)}",
                                             style = MaterialTheme.typography.bodyMedium,
                                             fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
-                                            color = if (transaction.amount >= 0) IncomeGreen else ExpenseRed
+                                            color = if (transaction.amount >= 0) getIncomeColor() else getExpenseColor()
                                         )
                                     }
                                 }

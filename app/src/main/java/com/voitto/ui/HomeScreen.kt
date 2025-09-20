@@ -52,13 +52,19 @@ import com.voitto.ui.components.AnimatedBalance
 import com.voitto.ui.components.AnimatedCard
 import com.voitto.ui.components.LoadingShimmer
 import com.voitto.ui.components.ReminderCard
+import com.voitto.ui.theme.getExpenseColor
+import com.voitto.ui.theme.getIncomeColor
+import com.voitto.ui.theme.getResponsivePadding
+import com.voitto.ui.theme.getResponsiveSpacing
+import com.voitto.ui.theme.getScreenSize
+import com.voitto.ui.theme.getSuccessColor
 import com.voitto.ui.viewmodel.HomeViewModel
 import java.text.DecimalFormat
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier, 
-    contentPadding: PaddingValues = PaddingValues(16.dp),
+    contentPadding: PaddingValues = PaddingValues(getResponsivePadding()),
     onAddTransaction: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -198,10 +204,7 @@ fun HomeScreen(
                                 text = "${formatter.format(weeklyChallenge.saved)}€",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                color = if (weeklyChallenge.isCompleted) 
-                                    androidx.compose.ui.graphics.Color(0xFF4CAF50)
-                                else 
-                                    androidx.compose.ui.graphics.Color(0xFF4CAF50)
+                                color = getSuccessColor()
                             )
                         }
                         
@@ -212,7 +215,7 @@ fun HomeScreen(
                             },
                             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                                 containerColor = if (weeklyChallenge.isCompleted) 
-                                    androidx.compose.ui.graphics.Color(0xFF4CAF50)
+                                    getSuccessColor()
                                 else 
                                     MaterialTheme.colorScheme.primary
                             )
@@ -257,7 +260,7 @@ fun HomeScreen(
                                 Icon(
                                     Icons.Default.KeyboardArrowUp,
                                     contentDescription = null,
-                                    tint = androidx.compose.ui.graphics.Color(0xFF4CAF50),
+                                    tint = getIncomeColor(),
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -265,7 +268,7 @@ fun HomeScreen(
                                     text = "€${formatter.format(monthlyStats.income)}",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                    color = androidx.compose.ui.graphics.Color(0xFF4CAF50)
+                                    color = getIncomeColor()
                                 )
                             }
                         }
@@ -280,7 +283,7 @@ fun HomeScreen(
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
-                                    tint = androidx.compose.ui.graphics.Color(0xFFF44336),
+                                    tint = getExpenseColor(),
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -288,7 +291,7 @@ fun HomeScreen(
                                     text = "€${formatter.format(monthlyStats.expenses)}",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                    color = androidx.compose.ui.graphics.Color(0xFFF44336)
+                                    color = getExpenseColor()
                                 )
                             }
                         }
@@ -304,9 +307,9 @@ fun HomeScreen(
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                                 color = if (monthlyStats.savings >= 0) 
-                                    androidx.compose.ui.graphics.Color(0xFF4CAF50) 
+                                    getSuccessColor() 
                                 else 
-                                    androidx.compose.ui.graphics.Color(0xFFF44336)
+                                    getExpenseColor()
                             )
                         }
                     }

@@ -11,14 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.voitto.ui.theme.ExpenseRed
-import com.voitto.ui.theme.IncomeGreen
+import com.voitto.ui.theme.getExpenseColor
+import com.voitto.ui.theme.getIncomeColor
 import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedTransactionBar(
     amount: Float,
-    color: Color = if (amount >= 0) IncomeGreen else ExpenseRed,
+    color: Color = if (amount >= 0) getIncomeColor() else getExpenseColor(),
     modifier: Modifier = Modifier
 ) {
     // Use remember to prevent recreation on recomposition

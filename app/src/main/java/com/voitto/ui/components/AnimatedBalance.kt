@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voitto.ui.theme.SafeBlue
-import com.voitto.ui.theme.SuccessGreen
+import com.voitto.ui.theme.getSafeColor
+import com.voitto.ui.theme.getSuccessColor
 import kotlinx.coroutines.delay
 
 @Composable
@@ -43,7 +43,7 @@ fun AnimatedBalance(
             .fillMaxWidth()
             .scale(animatedAmount),
         colors = CardDefaults.cardColors(
-            containerColor = if (isPositive) SuccessGreen.copy(alpha = 0.1f) else SafeBlue.copy(alpha = 0.1f)
+            containerColor = if (isPositive) getSuccessColor().copy(alpha = 0.1f) else getSafeColor().copy(alpha = 0.1f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -63,7 +63,7 @@ fun AnimatedBalance(
                     fontWeight = FontWeight.Bold,
                     fontSize = 28.sp
                 ),
-                color = if (isPositive) SuccessGreen else SafeBlue
+                color = if (isPositive) getSuccessColor() else getSafeColor()
             )
         }
     }
