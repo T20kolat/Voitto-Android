@@ -26,6 +26,14 @@ data class CashBurnInfo(
     val moneyLeftUntilSalary: Float
 )
 
+data class WeeklyChallenge(
+    val title: String,
+    val description: String,
+    val goal: Float,
+    val saved: Float,
+    val isCompleted: Boolean
+)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val budgetDao: BudgetDao,
@@ -76,6 +84,17 @@ class HomeViewModel @Inject constructor(
     
     private val _upcomingExpenses = MutableStateFlow<List<ExpenseEntity>>(emptyList())
     val upcomingExpenses: StateFlow<List<ExpenseEntity>> = _upcomingExpenses.asStateFlow()
+    
+    private val _weeklyChallenge = MutableStateFlow(
+        WeeklyChallenge(
+            title = "Soodaton viikko — merkitse suoritukset",
+            description = "Säästä tällä viikolla vähintään 50€ vaihtamalla brändituotteet kaupan omiin merkkeihin. Merkitse jokainen säästö!",
+            goal = 50f,
+            saved = 0f,
+            isCompleted = false
+        )
+    )
+    val weeklyChallenge: StateFlow<WeeklyChallenge> = _weeklyChallenge.asStateFlow()
     
     val recentTransactions: StateFlow<List<TransactionEntity>> = budgetDao
         .getTransactionsInPeriod(
@@ -191,5 +210,16 @@ class HomeViewModel @Inject constructor(
             budgetDao.deleteExpense(expense)
             loadUpcomingExpenses()
         }
+    }
+    
+    fun markChallengeProgress(amount: Float) {
+        val currentChallenge = _weeklyChallenge.value
+        val newSaved = (currentChallenge.saved + amount).coerceAtMost(currentChallenge.goal)
+        val isCompleted = newSaved >= currentChallenge.goal
+        
+        _weeklyChallenge.value = currentChallenge.copy(
+            saved = newSaved,
+            isCompleted = isCompleted
+        )
     }
 }

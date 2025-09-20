@@ -32,9 +32,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -62,8 +68,12 @@ fun HomeScreen(
     val recentTransactions by viewModel.recentTransactions.collectAsState()
     val monthlyStats by viewModel.monthlyStats.collectAsState()
     val cashBurnInfo by viewModel.cashBurnInfo.collectAsState()
+    val weeklyChallenge by viewModel.weeklyChallenge.collectAsState()
     
     val formatter = DecimalFormat("#,##0.00")
+    
+    var showChallengeDialog by remember { mutableStateOf(false) }
+    var challengeAmount by remember { mutableStateOf("") }
     
     LazyColumn(
         modifier = modifier
@@ -144,7 +154,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(12.dp))
                     
                     Text(
-                        text = "Soodaton viikko — merkitse suoritukset",
+                        text = weeklyChallenge.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
                     )
@@ -152,7 +162,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     
                     Text(
-                        text = "Säästä tällä viikolla vähintään 50€ vaihtamalla brändituotteet kaupan omiin merkkeihin. Merkitse jokainen säästö!",
+                        text = weeklyChallenge.description,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -171,7 +181,7 @@ fun HomeScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = "50€",
+                                text = "${formatter.format(weeklyChallenge.goal)}€",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary
@@ -185,21 +195,30 @@ fun HomeScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = "0€",
+                                text = "${formatter.format(weeklyChallenge.saved)}€",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                color = androidx.compose.ui.graphics.Color(0xFF4CAF50)
+                                color = if (weeklyChallenge.isCompleted) 
+                                    androidx.compose.ui.graphics.Color(0xFF4CAF50)
+                                else 
+                                    androidx.compose.ui.graphics.Color(0xFF4CAF50)
                             )
                         }
                         
                         Button(
-                            onClick = { /* TODO: Implement challenge tracking */ },
+                            onClick = { 
+                                // Show dialog to input savings amount
+                                showChallengeDialog = true
+                            },
                             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary
+                                containerColor = if (weeklyChallenge.isCompleted) 
+                                    androidx.compose.ui.graphics.Color(0xFF4CAF50)
+                                else 
+                                    MaterialTheme.colorScheme.primary
                             )
                         ) {
                             Text(
-                                text = "Merkitse",
+                                text = if (weeklyChallenge.isCompleted) "✅ Valmis!" else "Merkitse",
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }
@@ -444,9 +463,63 @@ fun HomeScreen(
                     onSnooze = { viewModel.snoozeExpense(expense) },
                     onDismiss = { viewModel.dismissExpense(expense) }
                 )
-            }
         }
+    }
 
+    }
+    
+    // Challenge Progress Dialog
+    if (showChallengeDialog) {
+        AlertDialog(
+            onDismissRequest = { 
+                showChallengeDialog = false
+                challengeAmount = ""
+            },
+            title = {
+                Text("Merkitse säästö")
+            },
+            text = {
+                Column {
+                    Text("Kuinka paljon säästit tällä kertaa?")
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = challengeAmount,
+                        onValueChange = { challengeAmount = it },
+                        label = { Text("Säästösumma (€)") },
+                        placeholder = { Text("0.00") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal
+                        )
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val amount = challengeAmount.toFloatOrNull() ?: 0f
+                        if (amount > 0f) {
+                            viewModel.markChallengeProgress(amount)
+                        }
+                        showChallengeDialog = false
+                        challengeAmount = ""
+                    }
+                ) {
+                    Text("Merkitse")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { 
+                        showChallengeDialog = false
+                        challengeAmount = ""
+                    }
+                ) {
+                    Text("Peruuta")
+                }
+            }
+        )
     }
 }
 
