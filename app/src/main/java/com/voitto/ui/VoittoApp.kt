@@ -1,6 +1,7 @@
 package com.voitto.ui
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Favorite
@@ -24,13 +25,15 @@ import com.voitto.ui.cashflow.CashFlowScreen
 import com.voitto.ui.tips.TipsScreen
 import com.voitto.ui.resources.ResourcesScreen
 import com.voitto.ui.HomeScreen
+import com.voitto.ui.transaction.AddTransactionScreen
 import com.voitto.ui.theme.VoittoTheme
 
 private enum class Dest(val route: String, val labelRes: Int, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     Home("home", R.string.nav_home, Icons.Default.Home),
     CashFlow("cashflow", R.string.nav_cashflow, Icons.Default.List),
     Tips("tips", R.string.nav_tips, Icons.Default.Favorite),
-    Resources("resources", R.string.nav_resources, Icons.Default.Info)
+    Resources("resources", R.string.nav_resources, Icons.Default.Info),
+    AddTransaction("add_transaction", R.string.add_transaction, Icons.Default.Add)
 }
 
 @Composable
@@ -59,10 +62,20 @@ fun VoittoApp() {
             }
         ) { padding ->
             NavHost(navController = navController, startDestination = Dest.Home.route) {
-                composable(Dest.Home.route) { HomeScreen(contentPadding = padding) }
+                composable(Dest.Home.route) { 
+                    HomeScreen(
+                        contentPadding = padding,
+                        onAddTransaction = { navController.navigate(Dest.AddTransaction.route) }
+                    ) 
+                }
                 composable(Dest.CashFlow.route) { CashFlowScreen() }
                 composable(Dest.Tips.route) { TipsScreen(contentPadding = padding) }
                 composable(Dest.Resources.route) { ResourcesScreen(contentPadding = padding) }
+                composable(Dest.AddTransaction.route) { 
+                    AddTransactionScreen(
+                        onNavigateBack = { navController.popBackStack() }
+                    ) 
+                }
             }
         }
     }

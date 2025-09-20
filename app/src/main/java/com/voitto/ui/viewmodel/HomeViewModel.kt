@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.voitto.data.dao.BudgetDao
 import com.voitto.data.entity.ExpenseEntity
+import com.voitto.data.entity.TransactionEntity
 import com.voitto.data.repository.SampleDataRepository
 import com.voitto.domain.usecase.SafeToSpendUseCase
 import com.voitto.domain.usecase.SafeToSpendResult
@@ -13,6 +14,18 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
+data class MonthlyStats(
+    val income: Float,
+    val expenses: Float,
+    val savings: Float
+)
+
+data class CashBurnInfo(
+    val dailyBurnRate: Float,
+    val daysUntilNextSalary: Int,
+    val moneyLeftUntilSalary: Float
+)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val budgetDao: BudgetDao,
@@ -20,12 +33,41 @@ class HomeViewModel @Inject constructor(
     private val sampleDataRepository: SampleDataRepository
 ) : ViewModel() {
     
-    private val _currentBalance = MutableStateFlow(1000f) // TODO: Get from user settings
-    val currentBalance: StateFlow<Float> = _currentBalance.asStateFlow()
+    val currentBalance: StateFlow<Float> = budgetDao
+        .getTransactionsInPeriod(
+            LocalDate.now().withDayOfMonth(1), // Start of current month
+            LocalDate.now()
+        ).map { transactions ->
+            // Calculate current balance from current month transactions only
+            transactions.sumOf { it.amount.toDouble() }.toFloat()
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0f
+        )
     
     val safeToSpendResult: StateFlow<SafeToSpendResult?> = 
-        _currentBalance.flatMapLatest { balance ->
-            safeToSpendUseCase.calculateSafeToSpend(balance)
+        currentBalance.flatMapLatest { balance ->
+            // Calculate a more realistic safe to spend amount
+            budgetDao.getTransactionsInPeriod(
+                LocalDate.now().minusDays(30),
+                LocalDate.now()
+            ).map { transactions ->
+                val dailyExpenses = transactions.filter { it.amount < 0 }
+                    .sumOf { kotlin.math.abs(it.amount.toDouble()) }.toFloat() / 30f
+                
+                // Safe to spend = current balance - (daily expenses * 7 days) - buffer
+                val weeklyExpenses = dailyExpenses * 7f
+                val buffer = 200f // 200€ buffer for unexpected expenses
+                val safeAmount = (balance - weeklyExpenses - buffer).coerceAtLeast(0f)
+                
+                SafeToSpendResult(
+                    currentBalance = balance,
+                    safeToSpend = safeAmount,
+                    upcomingExpenses = emptyList(),
+                    explanation = "Turvallisesti käytettävissä on rahaa, josta on vähennetty viikon arvioitu kulutus ja 200€ puskuri."
+                )
+            }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -34,6 +76,65 @@ class HomeViewModel @Inject constructor(
     
     private val _upcomingExpenses = MutableStateFlow<List<ExpenseEntity>>(emptyList())
     val upcomingExpenses: StateFlow<List<ExpenseEntity>> = _upcomingExpenses.asStateFlow()
+    
+    val recentTransactions: StateFlow<List<TransactionEntity>> = budgetDao
+        .getTransactionsInPeriod(
+            LocalDate.now().minusDays(30),
+            LocalDate.now()
+        ).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+    
+    val monthlyStats: StateFlow<MonthlyStats> = budgetDao
+        .getTransactionsInPeriod(
+            LocalDate.now().withDayOfMonth(1),
+            LocalDate.now()
+        ).map { transactions ->
+            val income = transactions.filter { it.amount > 0 }.sumOf { it.amount.toDouble() }.toFloat()
+            val expenses = transactions.filter { it.amount < 0 }.sumOf { kotlin.math.abs(it.amount.toDouble()) }.toFloat()
+            MonthlyStats(
+                income = income,
+                expenses = expenses,
+                savings = income - expenses
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = MonthlyStats(0f, 0f, 0f)
+        )
+    
+    val cashBurnInfo: StateFlow<CashBurnInfo> = budgetDao
+        .getTransactionsInPeriod(
+            LocalDate.now().minusDays(30),
+            LocalDate.now()
+        ).map { transactions ->
+            val dailyExpenses = transactions.filter { it.amount < 0 }
+                .sumOf { kotlin.math.abs(it.amount.toDouble()) }.toFloat() / 30f
+            
+            // Assume next salary is on 15th of next month
+            val today = LocalDate.now()
+            val nextSalary = if (today.dayOfMonth < 15) {
+                today.withDayOfMonth(15)
+            } else {
+                today.plusMonths(1).withDayOfMonth(15)
+            }
+            val daysUntilSalary = java.time.temporal.ChronoUnit.DAYS.between(today, nextSalary).toInt()
+            
+            val currentBalance = transactions.sumOf { it.amount.toDouble() }.toFloat()
+            val moneyLeftUntilSalary = currentBalance - (dailyExpenses * daysUntilSalary)
+            
+            CashBurnInfo(
+                dailyBurnRate = dailyExpenses,
+                daysUntilNextSalary = daysUntilSalary,
+                moneyLeftUntilSalary = moneyLeftUntilSalary
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = CashBurnInfo(0f, 0, 0f)
+        )
     
     init {
         // Load upcoming expenses immediately for better UX

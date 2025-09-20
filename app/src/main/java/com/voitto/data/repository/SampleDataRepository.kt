@@ -19,6 +19,7 @@ class SampleDataRepository @Inject constructor(
         
         // Seed categories
         val categories = listOf(
+            CategoryEntity("income", "Tulot", "💰", true),
             CategoryEntity("food", "Ruoka", "🍽️", true),
             CategoryEntity("housing", "Asuminen", "🏠", true),
             CategoryEntity("transport", "Liikkuminen", "🚗", true),

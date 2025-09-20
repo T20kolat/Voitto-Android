@@ -3,10 +3,10 @@
     <string name="app_name">Voitto</string>
 
     <!-- Navigation -->
-    <string name="nav_home">Home</string>
-    <string name="nav_cashflow">Cash Flow</string>
-    <string name="nav_tips">Tips</string>
-    <string name="nav_resources">Resources</string>
+    <string name="nav_home">Koti</string>
+    <string name="nav_cashflow">Kassavirta</string>
+    <string name="nav_tips">Vinkit</string>
+    <string name="nav_resources">Resurssit</string>
 
     <!-- Common actions -->
     <string name="action_confirm">Confirm</string>
@@ -32,17 +32,17 @@
     <string name="import_transactions_csv">Import bank transactions (CSV)</string>
 
     <!-- Cash flow -->
-    <string name="cashflow_title">Cash Flow</string>
-    <string name="balance_now">Current Balance</string>
-    <string name="safe_to_spend">Safe to Spend</string>
+    <string name="cashflow_title">Kassavirta</string>
+    <string name="balance_now">Tämänhetkinen saldo</string>
+    <string name="safe_to_spend">Turvallista käyttää</string>
     <string name="safe_to_spend_info">Safe to spend is an estimate of money you can use in the next week. It takes into account upcoming bills like rent and childcare fees.</string>
     <string name="predicted_label">predicted</string>
     <string name="period_net">Period Net</string>
     <string name="upcoming_large_expenses">Upcoming Large Expenses</string>
 
     <!-- Tips & challenges -->
-    <string name="tips_title">Saving Tips</string>
-    <string name="challenge_of_week">Challenge of the Week</string>
+    <string name="tips_title">Säästövinkit</string>
+    <string name="challenge_of_week">Viikon haaste</string>
     <string name="challenge_progress">Progress</string>
     <string name="mark_done">Mark Done</string>
     <string name="estimated_saving">Estimated Saving</string>
@@ -66,7 +66,7 @@
     <string name="cat_leisure">Leisure</string>
 
     <!-- Resource hub -->
-    <string name="resources_title">Resource Hub</string>
+    <string name="resources_title">Resurssikeskus</string>
     <string name="resources_segment_kela">Kela</string>
     <string name="resources_segment_food">Food Aid</string>
     <string name="resources_segment_debt">Debt Counseling</string>
@@ -97,4 +97,15 @@
     <!-- Empty states -->
     <string name="empty_reminders_explain">We remind you of less frequent important payments like vehicle tax and property tax.</string>
     <string name="empty_cashflow_explain">Add income and expenses or import transactions from CSV to see your cash flow.</string>
+    
+    <!-- Transaction management -->
+    <string name="add_transaction">Add Transaction</string>
+    <string name="transaction_type">Transaction Type</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="note">Note</string>
+    <string name="note_optional">Note (optional)</string>
 </resources>

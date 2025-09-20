@@ -23,10 +23,19 @@ class CashFlowViewModel @Inject constructor(
     private val safeToSpendUseCase: SafeToSpendUseCase
 ) : ViewModel() {
     
-    private val _currentBalance = MutableStateFlow(1000f)
-    val currentBalance: StateFlow<Float> = _currentBalance.asStateFlow()
+    val currentBalance: StateFlow<Float> = budgetDao
+        .getTransactionsInPeriod(
+            LocalDate.now().withDayOfMonth(1), // Start of current month
+            LocalDate.now()
+        ).map { transactions ->
+            transactions.sumOf { it.amount.toDouble() }.toFloat()
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0f
+        )
     
-    val safeToSpendResult = _currentBalance.flatMapLatest { balance ->
+    val safeToSpendResult = currentBalance.flatMapLatest { balance ->
         safeToSpendUseCase.calculateSafeToSpend(balance)
     }.stateIn(
         scope = viewModelScope,
