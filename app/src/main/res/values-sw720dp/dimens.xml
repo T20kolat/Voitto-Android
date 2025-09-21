@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensions for large screens (tablets) -->
+    <dimen name="padding_small">16dp</dimen>
+    <dimen name="padding_medium">24dp</dimen>
+    <dimen name="padding_large">32dp</dimen>
+    
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    
+    <dimen name="card_elevation_small">4dp</dimen>
+    <dimen name="card_elevation_medium">6dp</dimen>
+    <dimen name="card_elevation_large">10dp</dimen>
+    
+    <dimen name="icon_size_small">28dp</dimen>
+    <dimen name="icon_size_medium">32dp</dimen>
+    <dimen name="icon_size_large">36dp</dimen>
+    
+    <dimen name="button_height_small">48dp</dimen>
+    <dimen name="button_height_medium">56dp</dimen>
+    <dimen name="button_height_large">64dp</dimen>
+    
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    
+    <dimen name="content_max_width">800dp</dimen>
+</resources>

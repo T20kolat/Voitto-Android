@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.voitto.ui.theme.getSafeColor
 import com.voitto.ui.theme.getSuccessColor
+import com.voitto.ui.theme.getResponsiveCardElevation
+import com.voitto.ui.theme.getResponsiveCardPadding
+import com.voitto.ui.theme.getResponsiveTextScale
 import kotlinx.coroutines.delay
 
 @Composable
@@ -45,10 +48,10 @@ fun AnimatedBalance(
         colors = CardDefaults.cardColors(
             containerColor = if (isPositive) getSuccessColor().copy(alpha = 0.1f) else getSafeColor().copy(alpha = 0.1f)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(getResponsiveCardPadding()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -61,7 +64,7 @@ fun AnimatedBalance(
                 text = amount,
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 28.sp
+                    fontSize = (28 * getResponsiveTextScale()).sp
                 ),
                 color = if (isPositive) getSuccessColor() else getSafeColor()
             )

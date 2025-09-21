@@ -72,7 +72,7 @@ fun VoittoTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = getResponsiveTypography(),
         content = content
     )
 }

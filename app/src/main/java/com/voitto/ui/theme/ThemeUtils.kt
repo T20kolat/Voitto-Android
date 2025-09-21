@@ -1,6 +1,7 @@
 package com.voitto.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -91,5 +92,75 @@ fun getResponsiveTextScale(): Float {
         ScreenSize.Compact -> 1.0f
         ScreenSize.Medium -> 1.1f
         ScreenSize.Expanded -> 1.2f
+    }
+}
+
+// Responsive card elevation
+@Composable
+fun getResponsiveCardElevation(): Dp {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> 2.dp
+        ScreenSize.Medium -> 4.dp
+        ScreenSize.Expanded -> 6.dp
+    }
+}
+
+// Responsive icon size
+@Composable
+fun getResponsiveIconSize(): Dp {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> 24.dp
+        ScreenSize.Medium -> 28.dp
+        ScreenSize.Expanded -> 32.dp
+    }
+}
+
+// Responsive button height
+@Composable
+fun getResponsiveButtonHeight(): Dp {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> 40.dp
+        ScreenSize.Medium -> 48.dp
+        ScreenSize.Expanded -> 56.dp
+    }
+}
+
+// Responsive card padding
+@Composable
+fun getResponsiveCardPadding(): Dp {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> 16.dp
+        ScreenSize.Medium -> 20.dp
+        ScreenSize.Expanded -> 24.dp
+    }
+}
+
+// Responsive content width (for larger screens)
+@Composable
+fun getResponsiveContentWidth(): Dp {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> Dp.Unspecified
+        ScreenSize.Medium -> 600.dp
+        ScreenSize.Expanded -> 800.dp
+    }
+}
+
+// Responsive grid columns
+@Composable
+fun getResponsiveGridColumns(): Int {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> 1
+        ScreenSize.Medium -> 2
+        ScreenSize.Expanded -> 3
+    }
+}
+
+// Responsive horizontal arrangement
+@Composable
+fun getResponsiveHorizontalArrangement(): Arrangement.Horizontal {
+    return when (getScreenSize()) {
+        ScreenSize.Compact -> Arrangement.spacedBy(8.dp)
+        ScreenSize.Medium -> Arrangement.spacedBy(12.dp)
+        ScreenSize.Expanded -> Arrangement.spacedBy(16.dp)
     }
 }

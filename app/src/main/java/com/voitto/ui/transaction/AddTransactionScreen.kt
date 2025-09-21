@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.voitto.R
@@ -21,6 +22,10 @@ import com.voitto.data.entity.CategoryEntity
 import com.voitto.data.entity.TransactionEntity
 import com.voitto.ui.theme.getResponsivePadding
 import com.voitto.ui.theme.getResponsiveSpacing
+import com.voitto.ui.theme.getResponsiveCardElevation
+import com.voitto.ui.theme.getResponsiveCardPadding
+import com.voitto.ui.theme.getResponsiveButtonHeight
+import com.voitto.ui.theme.getResponsiveContentWidth
 import com.voitto.ui.viewmodel.AddTransactionViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -46,6 +51,13 @@ fun AddTransactionScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(getResponsivePadding())
+            .then(
+                if (getResponsiveContentWidth() != Dp.Unspecified) {
+                    Modifier.widthIn(max = getResponsiveContentWidth())
+                } else {
+                    Modifier
+                }
+            )
     ) {
             // Header
             Row(
@@ -74,10 +86,10 @@ fun AddTransactionScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(getResponsiveCardPadding())
                         ) {
                             Text(
                                 text = stringResource(id = R.string.transaction_type),
@@ -111,10 +123,10 @@ fun AddTransactionScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(getResponsiveCardPadding())
                         ) {
                             Text(
                                 text = stringResource(id = R.string.amount),
@@ -142,10 +154,10 @@ fun AddTransactionScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(getResponsiveCardPadding())
                         ) {
                             Text(
                                 text = stringResource(id = R.string.category),
@@ -167,7 +179,7 @@ fun AddTransactionScreen(
                                                 .fillMaxWidth()
                                                 .clickable { selectedCategory = category },
                                             elevation = CardDefaults.cardElevation(
-                                                defaultElevation = if (selectedCategory?.id == category.id) 4.dp else 2.dp
+                                                defaultElevation = if (selectedCategory?.id == category.id) getResponsiveCardElevation() else getResponsiveCardElevation() * 0.5f
                                             ),
                                             colors = CardDefaults.cardColors(
                                                 containerColor = if (selectedCategory?.id == category.id) 
@@ -179,7 +191,7 @@ fun AddTransactionScreen(
                                             Row(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(16.dp),
+                                                    .padding(getResponsiveCardPadding()),
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
                                                 Text(
@@ -208,10 +220,10 @@ fun AddTransactionScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(getResponsiveCardPadding())
                         ) {
                             Text(
                                 text = stringResource(id = R.string.date),
@@ -235,10 +247,10 @@ fun AddTransactionScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(getResponsiveCardPadding())
                         ) {
                             Text(
                                 text = stringResource(id = R.string.note),
@@ -264,7 +276,7 @@ fun AddTransactionScreen(
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation() * 1.5f),
                         colors = CardDefaults.cardColors(
                             containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 
                                 MaterialTheme.colorScheme.primary 
@@ -290,7 +302,9 @@ fun AddTransactionScreen(
                                     onNavigateBack()
                                 }
                             },
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(getResponsiveButtonHeight()),
                             enabled = selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = if (selectedCategory != null && amount.isNotEmpty() && amount.toFloatOrNull() != null) 

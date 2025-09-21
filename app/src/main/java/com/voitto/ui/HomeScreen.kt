@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -45,19 +47,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.voitto.R
 import com.voitto.ui.components.AnimatedBalance
 import com.voitto.ui.components.AnimatedCard
 import com.voitto.ui.components.LoadingShimmer
 import com.voitto.ui.components.ReminderCard
+import com.voitto.ui.components.ResponsiveContainer
+import com.voitto.ui.components.ResponsiveCard
+import com.voitto.ui.components.ResponsiveGrid
 import com.voitto.ui.theme.getExpenseColor
 import com.voitto.ui.theme.getIncomeColor
 import com.voitto.ui.theme.getResponsivePadding
 import com.voitto.ui.theme.getResponsiveSpacing
 import com.voitto.ui.theme.getScreenSize
 import com.voitto.ui.theme.getSuccessColor
+import com.voitto.ui.theme.getResponsiveCardElevation
+import com.voitto.ui.theme.getResponsiveIconSize
+import com.voitto.ui.theme.getResponsiveButtonHeight
+import com.voitto.ui.theme.getResponsiveCardPadding
+import com.voitto.ui.theme.getResponsiveContentWidth
+import com.voitto.ui.theme.getResponsiveGridColumns
+import com.voitto.ui.theme.getResponsiveHorizontalArrangement
 import com.voitto.ui.viewmodel.HomeViewModel
 import java.text.DecimalFormat
 
@@ -84,8 +95,15 @@ fun HomeScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(contentPadding),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(contentPadding)
+            .then(
+                if (getResponsiveContentWidth() != Dp.Unspecified) {
+                    Modifier.widthIn(max = getResponsiveContentWidth())
+                } else {
+                    Modifier
+                }
+            ),
+        verticalArrangement = Arrangement.spacedBy(getResponsiveSpacing()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -111,13 +129,13 @@ fun HomeScreen(
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation()),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(20.dp)
+                    modifier = Modifier.padding(getResponsiveCardPadding())
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -131,7 +149,7 @@ fun HomeScreen(
                                 Icons.Default.Star,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(getResponsiveIconSize())
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
@@ -213,6 +231,7 @@ fun HomeScreen(
                                 // Show dialog to input savings amount
                                 showChallengeDialog = true
                             },
+                            modifier = Modifier.height(getResponsiveButtonHeight()),
                             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                                 containerColor = if (weeklyChallenge.isCompleted) 
                                     getSuccessColor()
@@ -234,10 +253,10 @@ fun HomeScreen(
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(getResponsiveCardPadding())
                 ) {
                     Text(
                         text = "Tämän kuun tilanne",
@@ -248,7 +267,7 @@ fun HomeScreen(
                     
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = getResponsiveHorizontalArrangement()
                     ) {
                         Column {
                             Text(
@@ -321,10 +340,10 @@ fun HomeScreen(
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(getResponsiveCardPadding())
                 ) {
                     Text(
                         text = "Kassan kulutus",
@@ -335,7 +354,7 @@ fun HomeScreen(
                     
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = getResponsiveHorizontalArrangement()
                     ) {
                         Column {
                             Text(
@@ -400,9 +419,9 @@ fun HomeScreen(
                 )
                 Button(
                     onClick = onAddTransaction,
-                    modifier = Modifier.height(32.dp)
+                    modifier = Modifier.height(getResponsiveButtonHeight())
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(getResponsiveIconSize() * 0.5f))
                     Spacer(modifier = Modifier.width(4.dp))
                     Text("Lisää", style = MaterialTheme.typography.bodySmall)
                 }
@@ -412,12 +431,12 @@ fun HomeScreen(
         items(recentTransactions.take(5)) { transaction ->
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(getResponsiveCardPadding()),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -467,12 +486,9 @@ fun HomeScreen(
                     onDismiss = { viewModel.dismissExpense(expense) }
                 )
         }
-    }
-
-    }
-    
-    // Challenge Progress Dialog
-    if (showChallengeDialog) {
+        
+        // Challenge Progress Dialog
+        if (showChallengeDialog) {
         AlertDialog(
             onDismissRequest = { 
                 showChallengeDialog = false
