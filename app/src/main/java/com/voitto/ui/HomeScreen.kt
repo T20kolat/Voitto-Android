@@ -92,50 +92,22 @@ fun HomeScreen(
     var showChallengeDialog by remember { mutableStateOf(false) }
     var challengeAmount by remember { mutableStateOf("") }
     
-    LazyColumn(
+    ResponsiveContainer(
         modifier = modifier
-            .fillMaxSize()
-            .padding(contentPadding)
-            .then(
-                if (getResponsiveContentWidth() != Dp.Unspecified) {
-                    Modifier.widthIn(max = getResponsiveContentWidth())
-                } else {
-                    Modifier
-                }
-            ),
-        verticalArrangement = Arrangement.spacedBy(getResponsiveSpacing()),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            AnimatedBalance(
-                label = stringResource(id = R.string.balance_now),
-                amount = "€${formatter.format(currentBalance)}",
-                isPositive = currentBalance >= 0
-            )
-        }
-        
-        item {
-            AnimatedBalance(
-                label = stringResource(id = R.string.safe_to_spend),
-                amount = safeToSpendResult?.let { 
-                    val safeAmount = if (it.safeToSpend > 0) it.safeToSpend else 0f
-                    "€${formatter.format(safeAmount)}"
-                } ?: "€0,00",
-                isPositive = (safeToSpendResult?.safeToSpend ?: 0f) >= 0
-            )
-        }
-        
-        // Weekly Challenge - moved up and made more visible
-        item {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation()),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            ) {
-                Column(
-                    modifier = Modifier.padding(getResponsiveCardPadding())
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+            verticalArrangement = Arrangement.spacedBy(getResponsiveSpacing()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Weekly Challenge - NOW THE TOP ITEM
+            item {
+                ResponsiveCard(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    )
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -247,17 +219,29 @@ fun HomeScreen(
                     }
                 }
             }
-        }
+            
+            item {
+                AnimatedBalance(
+                    label = stringResource(id = R.string.balance_now),
+                    amount = "€${formatter.format(currentBalance)}",
+                    isPositive = currentBalance >= 0
+                )
+            }
+            
+            item {
+                AnimatedBalance(
+                    label = stringResource(id = R.string.safe_to_spend),
+                    amount = safeToSpendResult?.let { 
+                        val safeAmount = if (it.safeToSpend > 0) it.safeToSpend else 0f
+                        "€${formatter.format(safeAmount)}"
+                    } ?: "€0,00",
+                    isPositive = (safeToSpendResult?.safeToSpend ?: 0f) >= 0
+                )
+            }
 
-        // Monthly Statistics
-        item {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
-            ) {
-                Column(
-                    modifier = Modifier.padding(getResponsiveCardPadding())
-                ) {
+            // Monthly Statistics
+            item {
+                ResponsiveCard {
                     Text(
                         text = "Tämän kuun tilanne",
                         style = MaterialTheme.typography.titleMedium,
@@ -334,17 +318,10 @@ fun HomeScreen(
                     }
                 }
             }
-        }
-        
-        // Cash Burn Rate
-        item {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
-            ) {
-                Column(
-                    modifier = Modifier.padding(getResponsiveCardPadding())
-                ) {
+            
+            // Cash Burn Rate
+            item {
+                ResponsiveCard {
                     Text(
                         text = "Kassan kulutus",
                         style = MaterialTheme.typography.titleMedium,
@@ -403,92 +380,94 @@ fun HomeScreen(
                     }
                 }
             }
-        }
 
-        // Recent Transactions
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Viimeisimmät tapahtumat",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                )
-                Button(
-                    onClick = onAddTransaction,
-                    modifier = Modifier.height(getResponsiveButtonHeight())
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(getResponsiveIconSize() * 0.5f))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Lisää", style = MaterialTheme.typography.bodySmall)
-                }
-            }
-        }
-        
-        items(recentTransactions.take(5)) { transaction ->
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
-            ) {
+            // Recent Transactions
+            item {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(getResponsiveCardPadding()),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Viimeisimmät tapahtumat",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                    )
+                    Button(
+                        onClick = onAddTransaction,
+                        modifier = Modifier.height(getResponsiveButtonHeight())
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(getResponsiveIconSize() * 0.5f))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("Lisää", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+            }
+            
+            items(recentTransactions.take(5)) { transaction ->
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation())
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(getResponsiveCardPadding()),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = transaction.note ?: "Tapahtuma",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                            )
+                            Text(
+                                text = transaction.date.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM")),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                         Text(
-                            text = transaction.note ?: "Tapahtuma",
+                            text = "${if (transaction.amount >= 0) "+" else ""}€${formatter.format(transaction.amount)}",
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
-                        )
-                        Text(
-                            text = transaction.date.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM")),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                            color = if (transaction.amount >= 0) 
+                                androidx.compose.ui.graphics.Color(0xFF4CAF50) 
+                            else 
+                                androidx.compose.ui.graphics.Color(0xFFF44336)
                         )
                     }
-                    Text(
-                        text = "${if (transaction.amount >= 0) "+" else ""}€${formatter.format(transaction.amount)}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        color = if (transaction.amount >= 0) 
-                            androidx.compose.ui.graphics.Color(0xFF4CAF50) 
-                        else 
-                            androidx.compose.ui.graphics.Color(0xFFF44336)
+                }
+            }
+
+            // Show upcoming expenses with staggered animation
+            itemsIndexed(upcomingExpenses) { index, expense ->
+                AnimatedVisibility(
+                    visible = true,
+                    enter = slideInVertically(
+                        initialOffsetY = { it * (index + 1) },
+                        animationSpec = androidx.compose.animation.core.tween(300, delayMillis = index * 100)
+                    ) + fadeIn(animationSpec = androidx.compose.animation.core.tween(300, delayMillis = index * 100))
+                ) {
+                    val amountText = expense.amount?.let { "€${formatter.format(it)}" } 
+                        ?: expense.amountRange?.let { "€${formatter.format(it.first)}–${formatter.format(it.second)}" }
+                        ?: "€?"
+                        
+                    ReminderCard(
+                        title = stringResource(id = R.string.predicted_expense_title),
+                        subtitle = "${expense.name} — $amountText",
+                        onConfirm = { viewModel.confirmExpense(expense) },
+                        onSnooze = { viewModel.snoozeExpense(expense) },
+                        onDismiss = { viewModel.dismissExpense(expense) }
                     )
                 }
             }
         }
-
-        // Show upcoming expenses with staggered animation
-        itemsIndexed(upcomingExpenses) { index, expense ->
-            AnimatedVisibility(
-                visible = true,
-                enter = slideInVertically(
-                    initialOffsetY = { it * (index + 1) },
-                    animationSpec = androidx.compose.animation.core.tween(300, delayMillis = index * 100)
-                ) + fadeIn(animationSpec = androidx.compose.animation.core.tween(300, delayMillis = index * 100))
-            ) {
-                val amountText = expense.amount?.let { "€${formatter.format(it)}" } 
-                    ?: expense.amountRange?.let { "€${formatter.format(it.first)}–${formatter.format(it.second)}" }
-                    ?: "€?"
-                    
-                ReminderCard(
-                    title = stringResource(id = R.string.predicted_expense_title),
-                    subtitle = "${expense.name} — $amountText",
-                    onConfirm = { viewModel.confirmExpense(expense) },
-                    onSnooze = { viewModel.snoozeExpense(expense) },
-                    onDismiss = { viewModel.dismissExpense(expense) }
-                )
-        }
-        
-        // Challenge Progress Dialog
-        if (showChallengeDialog) {
+    }
+    
+    // Challenge Progress Dialog
+    if (showChallengeDialog) {
         AlertDialog(
             onDismissRequest = { 
                 showChallengeDialog = false
@@ -541,4 +520,3 @@ fun HomeScreen(
         )
     }
 }
-

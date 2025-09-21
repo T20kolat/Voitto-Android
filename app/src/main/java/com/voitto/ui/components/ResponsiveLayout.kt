@@ -17,14 +17,15 @@ import com.voitto.ui.theme.ScreenSize
 @Composable
 fun ResponsiveCard(
     modifier: Modifier = Modifier,
+    colors: androidx.compose.material3.CardColors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surface
+    ),
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = getResponsiveCardElevation()),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        colors = colors
     ) {
         Column(
             modifier = Modifier.padding(getResponsiveCardPadding()),
@@ -105,23 +106,44 @@ fun ResponsiveContainer(
     content: @Composable () -> Unit
 ) {
     val maxWidth = getResponsiveContentWidth()
+    val screenSize = getScreenSize()
     
-    if (maxWidth != Dp.Unspecified) {
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = androidx.compose.ui.Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .widthIn(max = maxWidth)
-                    .fillMaxWidth()
-            ) {
+    when (screenSize) {
+        ScreenSize.Compact -> {
+            // For phones, use full width
+            Box(modifier = modifier.fillMaxSize()) {
                 content()
             }
         }
-    } else {
-        Box(modifier = modifier.fillMaxSize()) {
-            content()
+        ScreenSize.Medium -> {
+            // For tablets, center with max width
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .widthIn(max = maxWidth)
+                        .fillMaxWidth()
+                ) {
+                    content()
+                }
+            }
+        }
+        ScreenSize.Expanded -> {
+            // For large screens, center with wider max width
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .widthIn(max = maxWidth)
+                        .fillMaxWidth()
+                ) {
+                    content()
+                }
+            }
         }
     }
 }
